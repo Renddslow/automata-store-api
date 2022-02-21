@@ -1,0 +1,1 @@
+const getItems = (_: string) => {};
