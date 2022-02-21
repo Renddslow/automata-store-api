@@ -7,6 +7,8 @@
   "author": "Matt McElwee <mubatt@wyopub.com>",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
     "mannish": "^4.0.1",
     "mysql": "^2.18.1",
     "polka": "^0.5.2"
@@ -26,7 +28,8 @@
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
     "prettier": "^2.5.1",
-    "ts-node": "^10.5.0"
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
   },
   "scripts": {
     "build": "node ./build.js",
@@ -34,6 +37,21 @@
     "build:prod": "yarn build --minify",
     "serve": "nodemon dist/index.js",
     "start": "run-p build:watch serve",
-    "start:database": "docker run -d --name automata -p 8081:3306 -e MYSQL_ROOT_PASSWORD=unified-story mysql:latest"
+    "start:database": "docker run -d --name automata -p 8081:3306 -e MYSQL_ROOT_PASSWORD=unified-story mysql:latest",
+    "test": "ava",
+    "test:coverage": "nyc ava"
+  },
+  "ava": {
+    "concurrency": 4,
+    "extensions": [
+      "ts"
+    ],
+    "files": [
+      "src/**/*.test.ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "timeout": "1m"
   }
 }

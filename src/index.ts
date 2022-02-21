@@ -6,7 +6,9 @@ import { promisify } from 'util';
 dotenv.config();
 
 import mediator from './mediator';
+import jsonResponse from './middlewares/jsonResponse';
 
+// Route controllers
 import carts from './controllers/carts';
 import items from './controllers/items';
 import customers from './controllers/customers';
@@ -28,15 +30,6 @@ const pool = mysql.createPool({
 
 const query = promisify(pool.query);
 mediator.provide('query', query);
-
-const jsonResponse = (req, res, next) => {
-  res.json = (body: any, status?: number) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.statusCode = status || 200;
-    res.end(JSON.stringify(body));
-  };
-  next();
-};
 
 polka()
   .use(jsonResponse)
