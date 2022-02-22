@@ -5,14 +5,20 @@ export type ApiError = {
   detail: string;
 };
 
+export type JsonApiData<Attr> = {
+  type: string;
+  id?: string | number;
+  attributes: Attr;
+};
+
 export type JsonApiBody<Attr> = {
-  data: {
-    type: string;
-    id?: string | number;
-    attributes: Attr;
-  };
+  data: JsonApiData<Attr> | JsonApiData<Attr>[];
   included?: Record<string, any>[];
   meta?: Record<string, any>;
+};
+
+export type JsonApiErrorBody = {
+  errors: ApiError[];
 };
 
 type Validator = (value: unknown) => boolean;
@@ -25,4 +31,10 @@ export type TokenUser = {
   cartID: string;
   customerID?: string;
   firstName?: string;
+};
+
+export type Cursor = {
+  cursor: string | number;
+  direction: 'next' | 'prev';
+  limit: number;
 };

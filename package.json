@@ -11,7 +11,8 @@
     "cors": "^2.8.5",
     "mannish": "^4.0.1",
     "mysql": "^2.18.1",
-    "polka": "^0.5.2"
+    "polka": "^0.5.2",
+    "qs": "^6.10.3"
   },
   "prettier": "@dmsi/prettier-config",
   "devDependencies": {

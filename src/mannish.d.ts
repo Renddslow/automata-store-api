@@ -1,9 +1,12 @@
-declare module mannish {
+declare namespace mannish {
   type Provider = (name: string, fn: Function) => () => void;
   type Callback<T> = (name: string, ...args: any[]) => T;
-  const mannish: () => {
+
+  interface Mannish {
     provide: Provider;
-    call: Callback<any>
-  };
-  module.exports = mannish;
+    call: Callback<any>;
+  }
 }
+declare function mannish(): mannish.Mannish;
+
+export = mannish;

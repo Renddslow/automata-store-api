@@ -1,4 +1,4 @@
-import { ApiError, JsonApiBody, ValidatorSchema } from '../types';
+import { ApiError, JsonApiBody, JsonApiData, ValidatorSchema } from '../types';
 
 type Response = {
   isValid: boolean;
@@ -13,7 +13,7 @@ const createError = (detail: string) => ({
 });
 
 const payloadIsValid = <T>(payload: JsonApiBody<T>, schema: ValidatorSchema): Response => {
-  const { attributes } = payload.data;
+  const { attributes } = payload.data as JsonApiData<T>;
 
   const errors = Object.keys(schema).reduce((acc, k) => {
     const v = schema[k];

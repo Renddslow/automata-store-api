@@ -2,11 +2,17 @@ import dotenv from 'dotenv';
 import polka from 'polka';
 import mysql from 'mysql';
 import { promisify } from 'util';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
 import mediator from './mediator';
+import serviceLinks from './serviceLinks';
+
+// Middlewares
 import jsonResponse from './middlewares/jsonResponse';
+import pagination from './middlewares/pagination';
 
 // Route controllers
 import carts from './controllers/carts';
@@ -32,19 +38,9 @@ const query = promisify(pool.query);
 mediator.provide('query', query);
 
 polka()
-  .use(jsonResponse)
+  .use(jsonResponse, pagination, cors(), bodyParser.json())
   .get('/', (req, res) => {
-    res.json({
-      data: {
-        type: 'root',
-        links: {
-          carts: '/carts',
-          customers: '/customers',
-          items: '/items',
-          orders: '/orders',
-        },
-      },
-    });
+    res.json(serviceLinks);
   })
   .use('/carts', carts)
   .use('/customers', customers)
