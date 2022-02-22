@@ -3,21 +3,21 @@ import test from 'ava';
 import { read, ReadHandler } from './pipeInbound';
 import { JsonApiBody } from '../types';
 
-test('read - returns a function', (t) => {
-  t.is(typeof read(() => ({ errors: [] })), 'function');
+test('read - returns a function', async (t) => {
+  t.is(typeof (await read(() => ({ errors: [] }))), 'function');
 });
 
-test('read - polka handler calls JSON method', (t) => {
+test('read - polka handler calls JSON method', async (t) => {
   t.plan(1);
   const res = {
     json: (payload) => {
       t.deepEqual(payload, { errors: [] });
     },
   };
-  read(() => ({ errors: [] }))({}, res);
+  await read(() => ({ errors: [] }))({}, res);
 });
 
-test('read - calls handler with payload when no id is present', (t) => {
+test('read - calls handler with payload when no id is present', async (t) => {
   t.plan(3);
   const req = {
     query: { count: '2' },
@@ -32,10 +32,10 @@ test('read - calls handler with payload when no id is present', (t) => {
     return { errors: [] };
   };
 
-  read(handler)(req, { json: () => {} });
+  await read(handler)(req, { json: () => {} });
 });
 
-test('read - calls handler with payload when id is present', (t) => {
+test('read - calls handler with payload when id is present', async (t) => {
   t.plan(3);
   const req = {
     query: { count: '2' },
@@ -50,10 +50,10 @@ test('read - calls handler with payload when id is present', (t) => {
     return { errors: [] };
   };
 
-  read(handler)(req, { json: () => {} });
+  await read(handler)(req, { json: () => {} });
 });
 
-test('read - returns a status of 200 when no errors are present', (t) => {
+test('read - returns a status of 200 when no errors are present', async (t) => {
   t.plan(1);
   const req = { query: {}, params: {}, user: {} };
   const res = {
@@ -61,10 +61,10 @@ test('read - returns a status of 200 when no errors are present', (t) => {
       t.is(statusCode, 200);
     },
   };
-  read((): JsonApiBody<any> => ({ data: { type: '', attributes: {} } }))(req, res);
+  await read((): JsonApiBody<any> => ({ data: { type: '', attributes: {} } }))(req, res);
 });
 
-test('read - returns a status of 400 when errors are present', (t) => {
+test('read - returns a status of 400 when errors are present', async (t) => {
   t.plan(1);
   const req = { query: {}, params: {}, user: {} };
   const res = {
@@ -72,5 +72,5 @@ test('read - returns a status of 400 when errors are present', (t) => {
       t.is(statusCode, 400);
     },
   };
-  read(() => ({ errors: [] }))(req, res);
+  await read(() => ({ errors: [] }))(req, res);
 });

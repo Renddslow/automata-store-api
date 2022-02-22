@@ -1,10 +1,16 @@
 import test from 'ava';
 
 import getItems from './getItems';
+import mediator from '../../mediator';
 
-test('getItems - returns object', (t) => {
+let remove;
+
+test('getItems - returns object', async (t) => {
+  remove = mediator.provide('query', () => Promise.resolve());
   t.is(
-    getItems(null, {}, { cartID: '' }, { limit: 0, cursor: '', direction: 'next' }).toString(),
+    (
+      await getItems(null, {}, { cartID: '' }, { limit: 0, cursor: '', direction: 'next' })
+    ).toString(),
     '[object Object]',
   );
 });
