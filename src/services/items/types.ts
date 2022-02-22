@@ -20,8 +20,6 @@ export type Item = {
   image: string;
 };
 
-export type ItemPricingDiscount = {};
-
 export type ItemData = {
   id: number;
   name: string;
