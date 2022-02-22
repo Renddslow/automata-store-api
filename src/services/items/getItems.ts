@@ -55,6 +55,11 @@ const getItems: ReadHandler<Item> = async (
       attributes: {
         name: item.name,
         originalPrice: item.msrp,
+        pricing: item.amount && {
+          amount: item.amount,
+          validTo: item.valid_to,
+          saleName: item.sale_name,
+        },
         description: item.description.toString(),
         warranty: item.warranty.toString(),
         overview: item.overview.toString(),
