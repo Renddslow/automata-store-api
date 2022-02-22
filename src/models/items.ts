@@ -1,9 +1,14 @@
-import mysql from 'mysql2';
-
 import { Cursor } from '../types';
 import mediator from '../mediator';
+import { ItemData } from '../services/items/types';
+import formatQuery from '../utils/formatQuery';
 
-export const list = (cursor: Cursor): Promise<unknown> => {
-  const query = `SELECT * FROM items WHERE id ${cursor.direction === 'next' ? '>' : '<'} ? LIMIT ?`;
-  return mediator.call('query', mysql.format(query, [cursor.cursor || 0, cursor.limit]));
+export const list = (cursor: Cursor): Promise<ItemData[]> => {
+  const query = `
+SELECT i.*, s.label, s.spec_value as value 
+    FROM items i 
+    INNER JOIN item_specs s ON i.id = s.item_id  
+    WHERE i.id ${cursor.direction === 'next' ? '>' : '<'} ? 
+    LIMIT ?`;
+  return mediator.call('query', formatQuery(query, [cursor.cursor || 0, cursor.limit]));
 };

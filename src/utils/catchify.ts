@@ -1,6 +1,6 @@
-const catchify = (cb: Promise<unknown>): Promise<[unknown | null, unknown | null]> =>
+const catchify = <T>(cb: Promise<unknown>): Promise<[unknown | null, T | null]> =>
   Promise.resolve(cb).then(
-    (d) => [null, d],
+    (d: T) => [null, d],
     (err) => [err, null],
   );
 

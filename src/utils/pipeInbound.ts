@@ -2,7 +2,7 @@ import { ApiError, Cursor, JsonApiBody, TokenUser } from '../types';
 
 type ApiResponse<T> = JsonApiBody<T> | { errors: ApiError[] };
 
-export type ReadHandler = <T>(
+export type ReadHandler<T> = (
   id: string | null,
   query: Record<string, string>,
   user: TokenUser,
@@ -27,7 +27,7 @@ const getStatus = (response: ApiResponse<unknown>) => {
   return 200;
 };
 
-export const read = (handler: ReadHandler) => async (req, res) => {
+export const read = (handler: ReadHandler<unknown>) => async (req, res) => {
   const response = await Promise.resolve(
     handler(req.params?.id || null, req.query, req.user, req.page),
   );

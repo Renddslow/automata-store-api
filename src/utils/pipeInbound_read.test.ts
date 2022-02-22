@@ -25,7 +25,7 @@ test('read - calls handler with payload when no id is present', async (t) => {
     user: { cartID: '' },
   };
 
-  const handler: ReadHandler = (id, query, user) => {
+  const handler: ReadHandler<any> = (id, query, user) => {
     t.deepEqual(query, { count: '2' });
     t.is(user.cartID, '');
     t.is(id, null);
@@ -43,7 +43,7 @@ test('read - calls handler with payload when id is present', async (t) => {
     user: { cartID: '' },
   };
 
-  const handler: ReadHandler = (id, query, user) => {
+  const handler: ReadHandler<any> = (id, query, user) => {
     t.deepEqual(query, { count: '2' });
     t.is(user.cartID, '');
     t.is(id, '12');
