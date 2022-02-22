@@ -24,6 +24,38 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/ `sandcrawler` /*!40100 DEFAULT CHARACTE
 USE `sandcrawler`;
 
 --
+-- Table structure for table `addresses`
+--
+
+DROP TABLE IF EXISTS `addresses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `addresses` (
+  `id` varchar(36) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `customer_id` varchar(36) NOT NULL,
+  `address_one` varchar(255) NOT NULL,
+  `address_two` varchar(255) DEFAULT NULL,
+  `address_three` varchar(255) DEFAULT NULL,
+  `city` varchar(255) NOT NULL,
+  `state` varchar(2) NOT NULL,
+  `zip_code` varchar(5) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `addresses__customers` (`customer_id`),
+  CONSTRAINT `addresses__customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `addresses`
+--
+
+LOCK TABLES `addresses` WRITE;
+/*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
+/*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cart_items`
 --
 
@@ -77,6 +109,32 @@ CREATE TABLE `carts` (
 LOCK TABLES `carts` WRITE;
 /*!40000 ALTER TABLE `carts` DISABLE KEYS */;
 /*!40000 ALTER TABLE `carts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `customers`
+--
+
+DROP TABLE IF EXISTS `customers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `customers` (
+  `id` varchar(36) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `email_idx` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customers`
+--
+
+LOCK TABLES `customers` WRITE;
+/*!40000 ALTER TABLE `customers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -165,6 +223,47 @@ LOCK TABLES `items` WRITE;
 INSERT INTO `items` VALUES (1,'3PO-series protocol droid',3000,'Cybot Galactica','','','','https://static.wikia.nocookie.net/starwars/images/8/85/PrissyAndPrissier-ST.jpg/revision/latest/scale-to-width-down/1000?cb=20090118041926');
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `order_summaries`
+--
+
+DROP TABLE IF EXISTS `order_summaries`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `order_summaries` (
+  `id` varchar(36) NOT NULL,
+  `customer_id` varchar(36) NOT NULL,
+  `ship_to_address_id` varchar(36) NOT NULL,
+  `bill_to_address_id` varchar(36) NOT NULL,
+  `subtotal` int NOT NULL,
+  `tax_total` int NOT NULL DEFAULT '0',
+  `total` int NOT NULL,
+  `cart_id` varchar(36) NOT NULL,
+  `charge_id` varchar(50) NOT NULL,
+  `charged` tinyint(1) DEFAULT '0',
+  `created` varchar(25) NOT NULL,
+  `updated` varchar(25) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_idx` (`created`),
+  KEY `charged_idx` (`charged`),
+  KEY `order_summaries__carts` (`cart_id`),
+  KEY `order_summaries_shipping__addresses` (`ship_to_address_id`),
+  KEY `order_summaries_billing__addresses` (`bill_to_address_id`),
+  CONSTRAINT `order_summaries__carts` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`),
+  CONSTRAINT `order_summaries_billing__addresses` FOREIGN KEY (`bill_to_address_id`) REFERENCES `addresses` (`id`),
+  CONSTRAINT `order_summaries_shipping__addresses` FOREIGN KEY (`ship_to_address_id`) REFERENCES `addresses` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_summaries`
+--
+
+LOCK TABLES `order_summaries` WRITE;
+/*!40000 ALTER TABLE `order_summaries` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order_summaries` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -175,4 +274,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-22  8:59:03
+-- Dump completed on 2022-02-22 20:16:13
