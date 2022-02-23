@@ -250,7 +250,9 @@ CREATE TABLE `order_summaries` (
   KEY `order_summaries__carts` (`cart_id`),
   KEY `order_summaries_shipping__addresses` (`ship_to_address_id`),
   KEY `order_summaries_billing__addresses` (`bill_to_address_id`),
+  KEY `order_summaries__customers` (`customer_id`),
   CONSTRAINT `order_summaries__carts` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`),
+  CONSTRAINT `order_summaries__customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
   CONSTRAINT `order_summaries_billing__addresses` FOREIGN KEY (`bill_to_address_id`) REFERENCES `addresses` (`id`),
   CONSTRAINT `order_summaries_shipping__addresses` FOREIGN KEY (`ship_to_address_id`) REFERENCES `addresses` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -274,4 +276,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-22 20:16:13
+-- Dump completed on 2022-02-23 14:48:49
