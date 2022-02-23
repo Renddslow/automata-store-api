@@ -38,6 +38,7 @@
     "build:prod": "yarn build --minify",
     "db:create": "docker run -d --name automata -p 8081:3306 -e MYSQL_ROOT_PASSWORD=unified-story -v \"$(pwd)/sandcrawler.sql:/docker-entrypoint-initdb.d/dump.sql\" mysql:latest",
     "db:remove": "docker stop automata && docker rm automata",
+    "db:dump": "docker exec -i automata mysqldump -punified-story --databases sandcrawler > sandcrawler.sql",
     "serve": "nodemon dist/index.js",
     "start": "run-p build:watch serve",
     "test": "ava",

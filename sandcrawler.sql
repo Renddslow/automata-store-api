@@ -63,7 +63,7 @@ DROP TABLE IF EXISTS `cart_items`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cart_items` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` varchar(36) NOT NULL,
   `cart_id` varchar(36) NOT NULL,
   `item_id` int NOT NULL,
   `price_on_add` int NOT NULL,
@@ -225,6 +225,42 @@ INSERT INTO `items` VALUES (1,'3PO-series protocol droid',3000,'Cybot Galactica'
 UNLOCK TABLES;
 
 --
+-- Table structure for table `order_details`
+--
+
+DROP TABLE IF EXISTS `order_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `order_details` (
+  `id` varchar(36) NOT NULL,
+  `order_summary_id` varchar(36) NOT NULL,
+  `item_id` int NOT NULL,
+  `cart_item_id` varchar(36) NOT NULL,
+  `unit_price` int NOT NULL,
+  `unit_discount` int DEFAULT '0',
+  `quantity` int NOT NULL DEFAULT '1',
+  `volume_discount` int DEFAULT '0',
+  `subtotal` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_details__order_summaries` (`order_summary_id`),
+  KEY `order_details__cart_items` (`cart_item_id`),
+  KEY `order_details__items` (`item_id`),
+  CONSTRAINT `order_details__cart_items` FOREIGN KEY (`cart_item_id`) REFERENCES `cart_items` (`id`),
+  CONSTRAINT `order_details__items` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`),
+  CONSTRAINT `order_details__order_summary` FOREIGN KEY (`order_summary_id`) REFERENCES `order_summaries` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_details`
+--
+
+LOCK TABLES `order_details` WRITE;
+/*!40000 ALTER TABLE `order_details` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `order_summaries`
 --
 
@@ -276,4 +312,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-23 14:48:49
+-- Dump completed on 2022-02-23 18:23:37
