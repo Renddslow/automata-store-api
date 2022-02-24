@@ -9,7 +9,7 @@ export type ReadHandler<T> = (
   page: Cursor,
 ) => ApiResponse<T> | Promise<ApiResponse<T>>;
 
-export type MutationHandler = <ReqAttr, ResAttr>(
+export type MutationHandler<ReqAttr, ResAttr> = (
   id: string | null,
   body: JsonApiBody<ReqAttr>,
   query: Record<string, string>,
@@ -34,7 +34,7 @@ export const read = (handler: ReadHandler<unknown>) => async (req, res) => {
   return res.json(response, getStatus(response));
 };
 
-export const mutate = (handler: MutationHandler) => async (req, res) => {
+export const mutate = (handler: MutationHandler<unknown, unknown>) => async (req, res) => {
   const response = await Promise.resolve(
     handler(req.params?.id || null, req.body, req.query, req.user),
   );

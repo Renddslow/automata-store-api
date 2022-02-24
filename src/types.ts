@@ -2,7 +2,7 @@ export type ApiError = {
   code: string;
   status: number;
   title: string;
-  detail: string;
+  detail?: string;
 };
 
 export type JsonApiData<Attr> = {
