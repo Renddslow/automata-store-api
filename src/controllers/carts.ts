@@ -1,13 +1,11 @@
 import polka from 'polka';
 
-import { mutate } from '../utils/pipeInbound';
-import { createCart, addItemToCart } from '../services/carts';
+import { mutate, read } from '../utils/pipeInbound';
+import { createCart, addItemToCart, getCartItems } from '../services/carts';
 
 const carts = polka()
   .post('/', mutate(createCart))
-  .get('/:id/items')
-  .post('/:id/items', mutate(addItemToCart))
-  .patch('/:id/items/:id')
-  .delete('/:id/items/:id');
+  .get('/:id/items', read(getCartItems))
+  .post('/:id/items', mutate(addItemToCart));
 
 export default carts;

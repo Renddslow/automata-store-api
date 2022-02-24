@@ -86,3 +86,20 @@ export const upsertCartItem = async (cartID: string, itemID: number): Promise<Ca
 
   return await mediator.call('query', formatQuery(query, [now, now, id]));
 };
+
+export const list = (id: string) => {
+  const now = new Date().toISOString();
+
+  const query = `
+    SELECT ci.id as cart_item_id, ci.*, i.*, p.amount, p.valid_to, p.sale_name
+    FROM cart_items ci
+    LEFT JOIN items i ON ci.item_id = i.id
+    LEFT JOIN (
+        SELECT * FROM item_pricing_books ipb
+        WHERE ipb.valid_from < ? AND ipb.valid_to > ?
+    ) as p ON i.id = p.item_id
+    WHERE ci.cart_id = ?
+  `;
+
+  return mediator.call('query', formatQuery(query, [now, now, id]));
+};

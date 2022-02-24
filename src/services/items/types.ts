@@ -42,3 +42,9 @@ export type ItemData = {
   valid_to: string;
   sale_name: string;
 };
+
+export type CartItemResponse = Omit<Item, 'specs'> & {
+  itemId: number;
+  priceOnAdd: number;
+  quantity: number;
+};
