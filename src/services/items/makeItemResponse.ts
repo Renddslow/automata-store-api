@@ -21,11 +21,11 @@ const makeItemResponse = (item: ItemData & { specs: ItemSpec[] }): JsonApiData<I
       validTo: item.valid_to,
       saleName: item.sale_name,
     },
-    description: item.description.toString(),
-    warranty: item.warranty.toString(),
-    overview: item.overview.toString(),
+    description: item.description ? item.description.toString() : undefined,
+    warranty: item.warranty ? item.warranty.toString() : undefined,
+    overview: item.overview ? item.overview.toString() : undefined,
     image: item.image,
-    specs: item.specs,
+    specs: item.specs.filter(({ label }) => !!label),
   },
 });
 
