@@ -8,10 +8,7 @@ import { CartItemData } from './types';
 const getCartItems: ReadHandler<CartItemResponse> = async (id: string) => {
   const [err, data] = await catchify<CartItemData[]>(list(id));
 
-  console.log(data);
-
   if (err) {
-    console.log(err);
     return {
       errors: [
         {
