@@ -3,6 +3,8 @@ import { ReadHandler } from '../../utils/pipeInbound';
 import { list } from '../../models/items';
 import catchify from '../../utils/catchify';
 import { Item, ItemData } from './types';
+import reduceItemSpecs from './reduceItemSpecs';
+import makeItemResponse from './makeItemResponse';
 
 const getItems: ReadHandler<Item> = async (
   _: null,
@@ -31,42 +33,10 @@ const getItems: ReadHandler<Item> = async (
     };
   }
 
-  const itemsWithSpecs = itemData.reduce((acc, item) => {
-    const itemIdx = acc.findIndex((i) => i.id === item.id);
-    if (itemIdx > -1) {
-      acc[itemIdx].specs.push({
-        label: item.label,
-        value: item.value,
-      });
-    } else {
-      const { label, value, ...rest } = item;
-      acc.push({
-        ...rest,
-        specs: [{ label, value }],
-      });
-    }
-    return acc;
-  }, []);
+  const itemsWithSpecs = reduceItemSpecs(itemData);
 
   return {
-    data: itemsWithSpecs.map((item) => ({
-      type: 'item',
-      id: item.id,
-      attributes: {
-        name: item.name,
-        originalPrice: item.msrp,
-        pricing: item.amount && {
-          amount: item.amount,
-          validTo: item.valid_to,
-          saleName: item.sale_name,
-        },
-        description: item.description.toString(),
-        warranty: item.warranty.toString(),
-        overview: item.overview.toString(),
-        image: item.image,
-        specs: item.specs,
-      },
-    })),
+    data: itemsWithSpecs.map(makeItemResponse),
   };
 };
 

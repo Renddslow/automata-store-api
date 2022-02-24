@@ -2,10 +2,10 @@ export default {
   data: {
     type: 'root',
     links: {
-      carts: '/carts',
-      customers: '/customers',
-      items: '/items',
-      orders: '/orders',
+      carts: '/api/carts',
+      customers: '/api/customers',
+      items: '/api/items',
+      orders: '/api/orders',
     },
   },
 };

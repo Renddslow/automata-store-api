@@ -12,12 +12,19 @@ export type Delivery = {
 
 export type Item = {
   name: string;
+  slug: string;
+  manufacturer: string;
   originalPrice: number;
   overview: string;
   description: string;
   specs: ItemSpec[];
   warranty: string;
   image: string;
+  pricing: {
+    amount: number;
+    validTo: string;
+    saleName: string;
+  };
 };
 
 export type ItemData = {
@@ -31,4 +38,7 @@ export type ItemData = {
   image: string;
   label: string;
   value: string;
+  amount: number;
+  valid_to: string;
+  sale_name: string;
 };

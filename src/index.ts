@@ -18,6 +18,7 @@ import pagination from './middlewares/pagination';
 import carts from './controllers/carts';
 import items from './controllers/items';
 import customers from './controllers/customers';
+import orders from './controllers/orders';
 
 const PORT = process.env.PORT || 8080;
 const MYSQL_CONNECTION_LIMIT = parseInt(process.env.MYSQL_CONNECTION_LIMIT, 10) || 100;
@@ -41,11 +42,15 @@ mediator.provide('query', query);
 
 polka()
   .use(jsonResponse, pagination, cors(), bodyParser.json())
-  .get('/', (req, res) => {
+  .get('/api', (req, res) => {
     res.json(serviceLinks);
   })
-  .use('/carts', carts)
-  .use('/customers', customers)
-  .use('/items', items)
-  .use('/orders')
+  .use(
+    '/api',
+    polka()
+      .use('/carts', carts)
+      .use('/customers', customers)
+      .use('/items', items)
+      .use('/orders', orders),
+  )
   .listen(PORT, () => console.log(`🕰 Running automata-api on port ${PORT}`));

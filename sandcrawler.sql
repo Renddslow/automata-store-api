@@ -181,7 +181,7 @@ CREATE TABLE `item_specs` (
   PRIMARY KEY (`id`),
   KEY `item_specs__items` (`item_id`),
   CONSTRAINT `item_specs__items` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,7 +190,7 @@ CREATE TABLE `item_specs` (
 
 LOCK TABLES `item_specs` WRITE;
 /*!40000 ALTER TABLE `item_specs` DISABLE KEYS */;
-INSERT INTO `item_specs` VALUES (1,1,'Height','1.7 meters'),(2,1,'Photoreceptors','2 (human range)'),(3,1,'Auditory receptors','2 (human range)');
+INSERT INTO `item_specs` VALUES (1,1,'Height','1.7 meters'),(2,1,'Photoreceptors','2 (human range)'),(3,1,'Auditory receptors','2 (human range)'),(4,1,'Olfactory receptor','1'),(5,1,'Class','Protocol droid'),(6,1,'Restraining bolt mount','1 (included)');
 /*!40000 ALTER TABLE `item_specs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,7 +220,7 @@ CREATE TABLE `items` (
 
 LOCK TABLES `items` WRITE;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
-INSERT INTO `items` VALUES (1,'3PO-series protocol droid',3000,'Cybot Galactica','','','','https://static.wikia.nocookie.net/starwars/images/8/85/PrissyAndPrissier-ST.jpg/revision/latest/scale-to-width-down/1000?cb=20090118041926');
+INSERT INTO `items` VALUES (1,'3PO-series protocol droid',299999,'Cybot Galactica',_binary 'The typical 3PO-series droid stands 1.7 meters in height with a humanoid build. Units are programmed with a subservient, service oriented personality and will never attack, under any circumstances even in self-defense.\n\nWith its standard components (head, torso, legs, arms and hands), a 3PO unit weighs 77.6 kg, and its maximal speed is 21km/hr.\n\nEach droid is equipped with a SyntheTech AA-1 VerboBrain making them capable of storing enormous amounts of information, the additional memory space is often used to keep communication modules in the active memory so that long delays may be avoided while searching for linguistic information on mid-translation. A TranLang III communications module allows them to be fluent in over six million forms of communication, even if they can not respond in all of them for a lack of proper communication appendages. They also have the skills necessary to quickly analyze new unregistered languages and translate them into more well-known ones.\n\nThey are even provided with an olfactory sensor that allows them to comprehend pheromonal communication.',_binary '3PO-series protocol droids are eequipped with a SyntheTech AA-1 VerboBrain making them capable of storing enormous amounts of information, the additional memory space is often used to keep communication modules in the active memory so that long delays can be avoided while searching for linguistic information on mid-translation.',_binary 'In no event shall Cybot Galactica be liable for consequential damages for breach of this warranty. Some States do not allow the exclusion or limitation of incidental or consequential damages, so the above limitation or exclusion may not apply to the buyer.\n\nCybot Galactica warrants the Covered Product to be free of all defects in material and workmanship for 30 from date of delivery. This warranty extends to the original buyer (only or and each successive buyer within the warranty period).\n\nWithin the period of this warranty, Cybot Galactica will repair or replace, free of charge; any part proving defective in material or workmanship. All warranty repairs and service must be performed by an authorized Cybot Galactica technician, or at an authorized Cybot Galactica service facility.','https://static.wikia.nocookie.net/starwars/images/8/85/PrissyAndPrissier-ST.jpg');
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -312,4 +312,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-23 18:23:37
+-- Dump completed on 2022-02-24  5:07:07

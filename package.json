@@ -12,7 +12,8 @@
     "mannish": "^4.0.1",
     "mysql2": "^2.3.3",
     "polka": "^0.5.2",
-    "qs": "^6.10.3"
+    "qs": "^6.10.3",
+    "slugify": "^1.6.5"
   },
   "prettier": "@dmsi/prettier-config",
   "devDependencies": {
